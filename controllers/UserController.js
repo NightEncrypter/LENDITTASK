@@ -4,6 +4,7 @@ const NewUser=db.user
 const Contact=db.contact
 const { Op } = require("sequelize");
 const bcrypt = require('bcryptjs');
+const { encrypt } = require("../utils/main");
 
 class UserController {
 
@@ -20,14 +21,14 @@ static async addUser  (req,res){
 	// ENCODED PASS BY HASH PASSWORD
     // const salt = await bcrypt.genSalt();
     // console.log(req.body,"Body")
-    const encryptedContacts = await Promise.all(
+    const encryptedContacts = 
         contacts.map(async(c)=>{
 
-      let  numberMain=await bcrypt.hash(c.number ,10)
+   
        return {
-            ...c,user_id:req.body.userId,number:numberMain
+            ...c,user_id:req.body.userId,number: encrypt( c.number)
         }
-}))
+})
 
 console.log(encryptedContacts,"userContact")
     const usersName=contacts.map(c=>(
@@ -66,16 +67,8 @@ c.number
     
     
         const contact = await Contact.bulkCreate(encryptedContacts);
-        // console.log(jane instanceof NewUser)
-        // console.log(contact)
-        // await contact.save();
-      
-    
-    
-                // jane.set({firstName:"Ansh",lastName:"Rathore"})
-                //  await jane.update({name:"Humanx",lastName:"Humanx"})
-                // await jane.destroy();
-                console.log('Jane was saved to the database')
+ 
+              
                 res.status(201).json({
                     success:true
                     ,data:contact
@@ -84,7 +77,6 @@ c.number
         console.log(error)
     }
 
-    // const user=await NewUser.create(req.body);
   
         }
 
@@ -100,7 +92,7 @@ static async fetchCommonUsers(req,res){
               {
                 model: Contact,
                 where: {
-                  number: num,
+                  number:  num,
                 },
               },
             
@@ -113,7 +105,7 @@ static async fetchCommonUsers(req,res){
 
         const commonData = await Contact.findAll({
             where: {
-              number: num,
+              number:num,
             },
             include: [
               {

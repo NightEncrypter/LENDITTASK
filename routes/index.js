@@ -1,6 +1,5 @@
 const express=require("express")
 const userRoute=require("./UserRoute")
-const queryRoute=require("./QueryRoute")
 
 const router=express.Router()
 

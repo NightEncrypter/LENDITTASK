@@ -1,0 +1,25 @@
+####
+POST http://localhost:5000/api/query/one-to-one
+Content-Type: application/json
+
+{
+    "firstName":"Dilip",
+    "lastName":"Kumar"
+}
+
+######
+POST http://localhost:5000/api/user/add-user-contact
+Content-Type: application/json
+
+{ "userId": 2, "contacts": [{"name": "mrty",
+"number": "2dd2345"},{"name": "gyui", "number": "121246652"}] }
+
+
+
+######
+GET http://localhost:5000/api/user/common-user/1234567890
+
+
+
+####
+GET http://localhost:5000/api/user/contacts?page=1&pageSize=1

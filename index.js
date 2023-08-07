@@ -23,7 +23,7 @@ app.use('/api',require('./routes'))
 // User.drop()
 
 
-const PORT=5000
+const PORT=3005
 app.listen(PORT,()=>{
-console.log("Port listening on 5000")
+console.log("Port listening on 3005")
 })
