@@ -34,13 +34,9 @@ static async addUserContact  (req,res){
 
 
    const {contacts }=req.body
-	// ENCODED PASS BY HASH PASSWORD
-    // const salt = await bcrypt.genSalt();
-    // console.log(req.body,"Body")
+
     try {
-    const [user] = await NewUser.findOrCreate({
-      where: { id:req.body.userId },
-    });
+
 
 
     const encryptedContacts = 
@@ -53,7 +49,6 @@ static async addUserContact  (req,res){
         }
 })
 
-console.log(encryptedContacts,"userContact")
     const usersName=contacts.map(c=>(
   c.name
     ))
@@ -87,7 +82,80 @@ console.log(encryptedContacts,"userContact")
             })
           }
     
-          console.log(isContactExist.length>0,"exist")
+   
+    
+    
+
+        const contact = await Contact.bulkCreate( encryptedContacts );
+ 
+              
+                res.status(201).json({
+                    success:true
+                    ,data:contact
+                })
+    } catch (error) {
+        console.log(error)
+    }
+
+  
+        }
+static async addUserContactDirect  (req,res){
+
+
+   const {contacts }=req.body
+	// ENCODED PASS BY HASH PASSWORD
+    // const salt = await bcrypt.genSalt();
+    // console.log(req.body,"Body")
+    try {
+    const [user] = await NewUser.findOrCreate({
+      where: { id:req.body.userId },
+    });
+
+
+    const encryptedContacts = 
+        contacts.map((c)=>{
+
+   
+       return {
+            ...c,user_id:req.body.userId,
+            number: encryptNumber(Number(c.number))
+        }
+})
+
+    const usersName=contacts.map(c=>(
+  c.name
+    ))
+    const usersNums=contacts.map(c=>(
+ encryptNumber( c.number)
+    ))
+
+
+  
+        const isContactExist= await Contact.findAll({
+            where: {
+              user_id: req.body.userId,
+    
+              name:{
+    
+                  [Op.in]: usersName                   
+            },
+            
+            
+            number:{
+                [Op.in]:usersNums
+            }
+    
+            }
+          });
+    
+    
+          if(isContactExist.length>0){
+            return   res.status(400).json({
+                message:"Contact already exist"
+            })
+          }
+    
+       
     
     
 
@@ -105,6 +173,8 @@ console.log(encryptedContacts,"userContact")
   
         }
 
+
+        
 
 static async fetchCommonUsers(req,res){
 

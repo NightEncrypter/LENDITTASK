@@ -1,7 +1,7 @@
 const { Sequelize, DataTypes, Model } = require('sequelize');
 
 
-// Option 3: Passing parameters separately (other dialects)
+
 const sequelize = new Sequelize('thesequlize', 'root', '', {
   host: 'localhost',
   dialect: 'mysql',port:3306

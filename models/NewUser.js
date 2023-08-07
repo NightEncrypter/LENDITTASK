@@ -1,4 +1,3 @@
-const  Contact=require('./Contact')
 
 module.exports=(sequelize,DataTypes,Model)=>{
 
@@ -21,16 +20,13 @@ unique:true
             type:DataTypes.STRING,
             allowNull:true
     
-            // Allow null to true
         }
     },{
         // timestamps:false,
         sequelize,
-    // modelName:"NewUser"
 
 })
 
-    // NewUser.hasMany(Contact)
 
     return NewUser
 }
