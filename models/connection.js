@@ -24,17 +24,15 @@ const db={
 db.Sequelize=Sequelize;
 db.sequelize=sequelize;
 
-// db.user=require('./NewUser')(sequelize,DataTypes,Model)
-// db.contact=require('./Contact')(sequelize,DataTypes)
+db.user=require('./NewUser')(sequelize,DataTypes,Model)
+db.contact=require('./Contact')(sequelize,DataTypes)
 
-// db.user.hasMany(db.contact,{
-//   foreignKey:"user_id",onDelete:"Cascade"
-// })
-// db.contact.belongsTo(db.user,{
-//   foreignKey:"user_id",onDelete:"Cascade"
-// })
+db.user.hasMany(db.contact,{
+  foreignKey:"user_id",onDelete:"Cascade"
+})
+db.contact.belongsTo(db.user)
 
-// db.sequelize.sync({force:false})
+// db.sequelize.sync({force:true})
 
 
 

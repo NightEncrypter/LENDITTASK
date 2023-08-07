@@ -3,8 +3,7 @@ const db = require("../models/connection");
 const NewUser=db.user
 const Contact=db.contact
 const { Op } = require("sequelize");
-const bcrypt = require('bcryptjs');
-const { encrypt } = require("../utils/main");
+const {   encrypt} = require("../utils/main");
 
 class UserController {
 
@@ -17,16 +16,18 @@ class UserController {
 // Using Create fun for entry the data into table
 static async addUser  (req,res){
 
+
    const {contacts }=req.body
 	// ENCODED PASS BY HASH PASSWORD
     // const salt = await bcrypt.genSalt();
     // console.log(req.body,"Body")
     const encryptedContacts = 
-        contacts.map(async(c)=>{
+        contacts.map((c)=>{
 
    
        return {
-            ...c,user_id:req.body.userId,number: encrypt( c.number)
+            ...c,user_id:req.body.userId,
+            number:encrypt(c.number)
         }
 })
 
@@ -34,9 +35,7 @@ console.log(encryptedContacts,"userContact")
     const usersName=contacts.map(c=>(
 c.name
     ))
-    const usersNumber=contacts.map(c=>(
-c.number
-    ))
+
 
     try {
         const isContactExist= await Contact.findAll({
@@ -66,6 +65,7 @@ c.number
           console.log(isContactExist.length>0,"exist")
     
     
+
         const contact = await Contact.bulkCreate(encryptedContacts);
  
               
@@ -84,7 +84,8 @@ c.number
 static async fetchCommonUsers(req,res){
 
 
-    const num=req.params.searchNumber
+    const num= req.params.searchNumber
+    
     try {
         
         const user = await NewUser.findOne({
@@ -110,9 +111,7 @@ static async fetchCommonUsers(req,res){
             include: [
               {
                 model: NewUser,
-                // where: {
-                //   id: { [Op.not]: user.id },
-                // },
+         
               },
             ],
             attributes: ['name',"number"],

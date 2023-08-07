@@ -11,7 +11,7 @@ module.exports=(sequelize,DataTypes)=>{
             allowNull:true
         },
         number:{
-            type:DataTypes.STRING,
+            type:DataTypes.TEXT,
             allowNull:true
         
     

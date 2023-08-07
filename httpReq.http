@@ -1,5 +1,5 @@
 ####
-POST http://localhost:5000/api/query/one-to-one
+POST http://localhost:3005/api/query/one-to-one
 Content-Type: application/json
 
 {
@@ -8,18 +8,18 @@ Content-Type: application/json
 }
 
 ######
-POST http://localhost:5000/api/user/add-user-contact
+POST http://localhost:3005/api/user/add-user-contact
 Content-Type: application/json
 
-{ "userId": 2, "contacts": [{"name": "mrty",
-"number": "2dd2345"},{"name": "gyui", "number": "121246652"}] }
+{ "userId": 1, "contacts": [{"name": "manisha",
+"number": "5678322769"},{"name": "sufin", "number": "678965725"}] }
 
 
 
 ######
-GET http://localhost:5000/api/user/common-user/1234567890
+GET http://localhost:5000/api/user/common-user/123456789
 
 
 
 ####
-GET http://localhost:5000/api/user/contacts?page=1&pageSize=1
+GET http://localhost:5000/api/user/contacts?page=1&pageSize=2
