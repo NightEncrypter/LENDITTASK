@@ -8,19 +8,27 @@ module.exports=(sequelize,DataTypes,Model)=>{
 
 
      NewUser.init({
+
+        id:{
+             primaryKey:true,
+type:DataTypes.INTEGER,
+unique:true
+        },
         firstName:{
             type:DataTypes.STRING,
-            allowNull:false
+            allowNull:true
         },lastName:{
             type:DataTypes.STRING,
-            defaultValue:"Rathore"
+            allowNull:true
     
             // Allow null to true
         }
     },{
-        timestamps:false,
+        // timestamps:false,
         sequelize,
-    modelName:"NewUser"})
+    // modelName:"NewUser"
+
+})
 
     // NewUser.hasMany(Contact)
 

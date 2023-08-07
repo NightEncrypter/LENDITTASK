@@ -30,7 +30,9 @@ db.contact=require('./Contact')(sequelize,DataTypes)
 db.user.hasMany(db.contact,{
   foreignKey:"user_id",onDelete:"Cascade"
 })
-db.contact.belongsTo(db.user)
+db.contact.belongsTo(db.user,{
+  foreignKey:"user_id",onDelete:"Cascade"
+})
 
 // db.sequelize.sync({force:true})
 

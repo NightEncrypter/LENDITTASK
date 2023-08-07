@@ -6,13 +6,15 @@ module.exports=(sequelize,DataTypes)=>{
 
 
     const Contact=sequelize.define('contacts',({
+
+
         name:{
             type:DataTypes.STRING,
             allowNull:true
         },
         number:{
             type:DataTypes.TEXT,
-            allowNull:true
+            allowNull:true,
         
     
             // Allow null to true

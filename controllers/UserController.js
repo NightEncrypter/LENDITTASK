@@ -3,41 +3,66 @@ const db = require("../models/connection");
 const NewUser=db.user
 const Contact=db.contact
 const { Op } = require("sequelize");
-const {   encrypt} = require("../utils/main");
+const {   encryptNumber,decryptNumber} = require("../utils/main");
 
 class UserController {
 
 
 
 
+  static async addUser  (req,res){
 
+
+    try {
+      const user=await NewUser.create(req.body);
+  
+  
+  
+              res.status(201).json({
+                  success:true
+                  ,user
+              })
+      
+    } catch (error) {
+      console.log(error)
+    }
+        }
 
 
 // Using Create fun for entry the data into table
-static async addUser  (req,res){
+static async addUserContact  (req,res){
 
 
    const {contacts }=req.body
 	// ENCODED PASS BY HASH PASSWORD
     // const salt = await bcrypt.genSalt();
     // console.log(req.body,"Body")
+    try {
+    const [user] = await NewUser.findOrCreate({
+      where: { id:req.body.userId },
+    });
+
+
     const encryptedContacts = 
         contacts.map((c)=>{
 
    
        return {
             ...c,user_id:req.body.userId,
-            number:encrypt(c.number)
+            number: encryptNumber(Number(c.number))
         }
 })
 
 console.log(encryptedContacts,"userContact")
     const usersName=contacts.map(c=>(
-c.name
+  c.name
+    ))
+    const usersNums=contacts.map(c=>(
+ encryptNumber( c.number)
     ))
 
 
-    try {
+  
         const isContactExist= await Contact.findAll({
             where: {
               user_id: req.body.userId,
@@ -48,9 +73,9 @@ c.name
             },
             
             
-            // number:{
-            //     [Op.in]:usersNumber
-            // }
+            number:{
+                [Op.in]:usersNums
+            }
     
             }
           });
@@ -66,7 +91,7 @@ c.name
     
     
 
-        const contact = await Contact.bulkCreate(encryptedContacts);
+        const contact = await Contact.bulkCreate( encryptedContacts );
  
               
                 res.status(201).json({
@@ -84,8 +109,9 @@ c.name
 static async fetchCommonUsers(req,res){
 
 
-    const num= req.params.searchNumber
+    const num=  encryptNumber( req.params.searchNumber)
     
+    console.log(num,"num")
     try {
         
         const user = await NewUser.findOne({
